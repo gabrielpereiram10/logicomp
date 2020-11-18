@@ -24,7 +24,7 @@ class Atom(Formula):
         super().__init__()
         self.name = name
 
-    def __str__(self):
+    def __repr__(self):
         return str(self.name)
 
     def __eq__(self, other):
@@ -41,7 +41,7 @@ class Implies(Formula):
         self.left = left
         self.right = right
 
-    def __str__(self):
+    def __repr__(self):
         return "(" + self.left.__str__() + " " + u"\u2192" + " " + self.right.__str__() + ")"
 
     def __eq__(self, other):
@@ -57,7 +57,7 @@ class Not(Formula):
         super().__init__()
         self.inner = inner
 
-    def __str__(self):
+    def __repr__(self):
         return "(" + u"\u00ac" + str(self.inner) + ")"
 
     def __eq__(self, other):
@@ -74,7 +74,7 @@ class And(Formula):
         self.left = left
         self.right = right
 
-    def __str__(self):
+    def __repr__(self):
         return "(" + self.left.__str__() + " " + u"\u2227" + " " + self.right.__str__() + ")"
 
     def __eq__(self, other):
@@ -91,7 +91,7 @@ class Or(Formula):
         self.left = left
         self.right = right
 
-    def __str__(self):
+    def __repr__(self):
         return "(" + self.left.__str__() + " " + u"\u2228" + " " + self.right.__str__() + ")"
 
     def __eq__(self, other):
