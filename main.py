@@ -49,3 +49,8 @@ print('len(subformulas(formula8)) <= length(formula8):', len(subformulas(formula
 print(atoms(formula6))
 print(atoms(formula7))
 print(atoms(formula8))
+
+# number of atoms test
+print(number_of_atoms(formula6))
+print(number_of_atoms(formula7))
+print(number_of_atoms(formula8))
