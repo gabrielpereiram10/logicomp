@@ -54,3 +54,8 @@ print(atoms(formula8))
 print(number_of_atoms(formula6))
 print(number_of_atoms(formula7))
 print(number_of_atoms(formula8))
+
+# number of connectives test
+print(number_of_connectives(formula6))
+print(number_of_connectives(formula7))
+print(number_of_connectives(formula8))
