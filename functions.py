@@ -77,10 +77,15 @@ def number_of_atoms(formula: Formula, atomic_set: Set[Atom] = None) -> int:
         return number_of_atoms(formula.left, atomic_set) + number_of_atoms(formula.right, atomic_set)
 
 
-def number_of_connectives(formula):
+def number_of_connectives(formula: Formula) -> int:
     """Returns the number of connectives occurring in a formula."""
-    pass
-    # ======== YOUR CODE HERE ========
+
+    if isinstance(formula, Atom):
+        return 0
+    if isinstance(formula, Not):
+        return number_of_connectives(formula.inner) + 1
+    if isinstance(formula, Implies) or isinstance(formula, And) or isinstance(formula, Or):
+        return number_of_connectives(formula.left) + number_of_connectives(formula.right) + 1
 
 
 def substitution(formula, old_subformula, new_subformula):
