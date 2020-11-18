@@ -6,7 +6,7 @@ from typing import Set
 from formula import *
 
 
-def length(formula):
+def length(formula: Formula) -> int:
     """Determines the length of a formula in propositional logic."""
     if isinstance(formula, Atom):
         return 1
@@ -53,6 +53,7 @@ def atoms(formula: Formula) -> Set[Atom]:
     This piece of code above prints: p, s
     (Note that there is no repetition of p)
     """
+
     if isinstance(formula, Atom):
         return {formula}
     if isinstance(formula, Not):
