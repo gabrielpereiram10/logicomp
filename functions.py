@@ -62,20 +62,15 @@ def atoms(formula: Formula) -> Set[Atom]:
         return atoms(formula.left).union(atoms(formula.right))
 
 
-def number_of_atoms(formula: Formula, atomic_set: Set[Atom] = None) -> int:
-    """Returns the number of distinct atoms occurring in a formula."""
+def number_of_atoms(formula: Formula) -> int:
+    """Returns the number of atoms occurring in a formula."""
 
-    if atomic_set is None:
-        atomic_set = set()
     if isinstance(formula, Atom):
-        if not atomic_set.issuperset({formula}):
-            atomic_set.add(formula)
-            return 1
-        return 0
+        return 1
     if isinstance(formula, Not):
-        return number_of_atoms(formula.inner, atomic_set)
+        return number_of_atoms(formula.inner)
     if isinstance(formula, Implies) or isinstance(formula, And) or isinstance(formula, Or):
-        return number_of_atoms(formula.left, atomic_set) + number_of_atoms(formula.right, atomic_set)
+        return number_of_atoms(formula.left) + number_of_atoms(formula.right)
 
 
 def number_of_connectives(formula: Formula) -> int:
