@@ -9,10 +9,24 @@ As another example, the piece of code below creates an object that represents (p
 formula2 = Implies(Atom('p'), Or(Atom('p'), Atom('s')))
 """
 
+from abc import abstractmethod
+from typing import Union
+
 
 class Formula:
-    def __init__(self):
-        pass
+    ...
+
+
+class Connective:
+    @abstractmethod
+    def truth_value(self) -> Union[bool, None]:
+        raise NotImplemented
+
+
+class BinaryConnective(Connective):
+    def __init__(self, left, right):
+        self.left = left
+        self.right = right
 
 
 class Atom(Formula):
@@ -34,12 +48,10 @@ class Atom(Formula):
         return hash((self.name, 'atom'))
 
 
-class Implies(Formula):
+class Implies(BinaryConnective, Formula):
 
     def __init__(self, left, right):
-        super().__init__()
-        self.left = left
-        self.right = right
+        super().__init__(left, right)
 
     def __repr__(self):
         return "(" + self.left.__str__() + " " + u"\u2192" + " " + self.right.__str__() + ")"
@@ -51,7 +63,7 @@ class Implies(Formula):
         return hash((hash(self.left), hash(self.right), 'implies'))
 
 
-class Not(Formula):
+class Not(Connective, Formula):
 
     def __init__(self, inner):
         super().__init__()
@@ -67,12 +79,10 @@ class Not(Formula):
         return hash((hash(self.inner), 'not'))
 
 
-class And(Formula):
+class And(BinaryConnective, Formula):
 
     def __init__(self, left, right):
-        super().__init__()
-        self.left = left
-        self.right = right
+        super().__init__(left, right)
 
     def __repr__(self):
         return "(" + self.left.__str__() + " " + u"\u2227" + " " + self.right.__str__() + ")"
@@ -84,12 +94,10 @@ class And(Formula):
         return hash((hash(self.left), hash(self.right), 'and'))
 
 
-class Or(Formula):
+class Or(BinaryConnective, Formula):
 
     def __init__(self, left, right):
-        super().__init__()
-        self.left = left
-        self.right = right
+        super().__init__(left, right)
 
     def __repr__(self):
         return "(" + self.left.__str__() + " " + u"\u2228" + " " + self.right.__str__() + ")"
@@ -115,3 +123,12 @@ class Xor:
     Unicode value for xor is 2295.
     """
     pass
+
+
+p = Atom('p')
+q = Atom('q')
+print(p)
+print(Not(p))
+print(Implies(p, q))
+print(And(p, q))
+print(Or(p, q))
