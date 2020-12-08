@@ -10,7 +10,7 @@ formula2 = Implies(Atom('p'), Or(Atom('p'), Atom('s')))
 """
 
 from abc import abstractmethod
-from typing import Union
+from typing import Union, Set, Tuple, Sized
 
 
 class Formula:
@@ -38,6 +38,18 @@ class Atom(Formula):
         super().__init__()
         self.name = name
 
+    def get_value(self, interpretation_copy: Set[Tuple[str, bool]]) -> Union[bool, None]:
+        if self.__is_empty(interpretation_copy):
+            return None
+        valuation = interpretation_copy.pop()
+        if valuation[0] == self.name:
+            return valuation[1]
+        return self.get_value(interpretation_copy)
+
+    @staticmethod
+    def __is_empty(iterable: Sized) -> bool:
+        return len(iterable) == 0
+
     def __repr__(self):
         return str(self.name)
 
@@ -52,6 +64,13 @@ class Implies(BinaryConnective, Formula):
 
     def __init__(self, left, right):
         super().__init__(left, right)
+
+    def truth_value(self) -> Union[bool, None]:
+        if self.left is False or self.right is True:
+            return True
+        if self.left is True and self.right is False:
+            return False
+        return None
 
     def __repr__(self):
         return "(" + self.left.__str__() + " " + u"\u2192" + " " + self.right.__str__() + ")"
@@ -69,6 +88,11 @@ class Not(Connective, Formula):
         super().__init__()
         self.inner = inner
 
+    def truth_value(self) -> Union[bool, None]:
+        if isinstance(self.inner, bool):
+            return not self.inner
+        return None
+
     def __repr__(self):
         return "(" + u"\u00ac" + str(self.inner) + ")"
 
@@ -84,6 +108,13 @@ class And(BinaryConnective, Formula):
     def __init__(self, left, right):
         super().__init__(left, right)
 
+    def truth_value(self) -> Union[bool, None]:
+        if self.left is True and self.right is True:
+            return True
+        if self.left is False or self.right is False:
+            return False
+        return None
+
     def __repr__(self):
         return "(" + self.left.__str__() + " " + u"\u2227" + " " + self.right.__str__() + ")"
 
@@ -98,6 +129,13 @@ class Or(BinaryConnective, Formula):
 
     def __init__(self, left, right):
         super().__init__(left, right)
+
+    def truth_value(self) -> Union[bool, None]:
+        if self.left is True or self.right is True:
+            return True
+        if self.left is False and self.right is False:
+            return False
+        return None
 
     def __repr__(self):
         return "(" + self.left.__str__() + " " + u"\u2228" + " " + self.right.__str__() + ")"
@@ -123,12 +161,3 @@ class Xor:
     Unicode value for xor is 2295.
     """
     pass
-
-
-p = Atom('p')
-q = Atom('q')
-print(p)
-print(Not(p))
-print(Implies(p, q))
-print(And(p, q))
-print(Or(p, q))
