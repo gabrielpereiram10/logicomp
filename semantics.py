@@ -7,8 +7,8 @@ from functions import atoms
 
 
 def truth_value(formula: Formula, interpretation: Set[Tuple[str, bool]]) -> Union[bool, None]:
-    """Determines the truth value of a formula in an interpretation (valuation).
-    An interpretation may be defined as dictionary. For example, {'p': True, 'q': False}.
+    """Determines the true value of a formula for an interpretation (evaluation) complete or partial.
+      An interpretation can be defined as a set of tuples. For example, {('p', True)}.
     """
 
     if isinstance(formula, Atom):
