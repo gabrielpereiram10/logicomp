@@ -1,7 +1,7 @@
 import unittest
 
-from semantics import *
-from formula import *
+from logicomp.propositional_logic.semantics import *
+from logicomp.propositional_logic.formula import *
 
 
 class TestSemantics(unittest.TestCase):

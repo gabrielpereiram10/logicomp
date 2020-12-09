@@ -8,7 +8,7 @@ Essa situação é possível nas condições do puzzle?
 É possível dizer a categoria de Amy? Justifique."""
 
 
-from semantics import *
+from logicomp.propositional_logic.semantics import *
 
 amy_honest = Atom('amy é honesta')
 

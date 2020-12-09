@@ -1,4 +1,4 @@
-from semantics import *
+from logicomp.propositional_logic.semantics import *
 import time
 
 '''
@@ -176,15 +176,15 @@ def sudoku_solution(grid):
     final_formula = And(
         And(
             And(
-                given_digits_constraints(grid_test1),
-                rows_constraints(grid_test1)
+                given_digits_constraints(grid),
+                rows_constraints(grid)
             ),
             And(
-                cells_constraints(grid_test1),
-                columns_constraints(grid_test1)
+                cells_constraints(grid),
+                columns_constraints(grid)
             ),
         ),
-        subgrids_constrains(grid_test1)
+        subgrids_constrains(grid)
     )
     solution = is_satisfiable(final_formula)
     if solution:
@@ -192,7 +192,7 @@ def sudoku_solution(grid):
             for j in range(len(grid)):
                 if grid[i][j] == 0:
                     for n in range(len(grid)):
-                        if solution[str(i + 1) + '_' + str(j + 1) + '_' + str(n + 1)]:
+                        if solution.issuperset({(Atom(f'{i + 1}_{j + 1}_{n + 1}'), True)}):
                             grid[i][j] = n + 1
                             break
         print(grid)
