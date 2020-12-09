@@ -35,10 +35,12 @@ def is_logical_equivalence(formula1, formula2):
     # ======== YOUR CODE HERE ========
 
 
-def is_valid(formula):
+def is_valid(formula: Formula) -> bool:
     """Returns True if formula is a logically valid (tautology). Otherwise, it returns False"""
-    pass
-    # ======== YOUR CODE HERE ========
+
+    if is_satisfiable(Not(formula)):
+        return False
+    return True
 
 
 def is_satisfiable(formula: Formula) -> Union[Set[Tuple[Atom, bool]], bool]:
@@ -52,7 +54,9 @@ def is_satisfiable(formula: Formula) -> Union[Set[Tuple[Atom, bool]], bool]:
     interpretation = get_partial_interpretation(formula)
     if interpretation:
         set_atoms = new_set_atoms(set_atoms, interpretation)
-    result = sat(formula, set_atoms, interpretation)
+        result = sat(formula, set_atoms, interpretation)
+    else:
+        result = sat(formula, set_atoms, set())
     if result:
         return result
     return False
