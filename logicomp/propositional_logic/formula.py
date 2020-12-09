@@ -42,10 +42,11 @@ class Atom(Formula):
         super().__init__()
         self.name = name
 
-    def get_value(self, interpretation: Set[Tuple[Atom, bool]]) -> Union[bool, None]:
+    def get_value(self, interpretation: Set) -> Union[bool, None]:
         """
         Checks if Atom is in the interpretation and returns the associated value.
         Otherwise, it returns None.
+        :param interpretation: A set of tuples containing an atom and its associated value
         """
 
         if interpretation.issuperset({(self, True)}):

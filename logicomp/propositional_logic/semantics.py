@@ -1,11 +1,16 @@
 """The goal in this module is to define functions associated with the semantics of formulas in propositional logic. """
 
 from logicomp.propositional_logic.formula import *
+from logicomp.propositional_logic.functions import atoms
 
 
 def truth_value(formula: Formula, interpretation: Set[Tuple[Atom, bool]]) -> Union[bool, None]:
-    """Determines the true value of a formula for an interpretation (evaluation) complete or partial.
-      An interpretation can be defined as a set of tuples. For example, {('p', True)}.
+    """
+    Determines the true value of a formula for an interpretation (evaluation) complete or partial.
+    An interpretation can be defined as a set of tuples. For example, {(Atom('p'), True)}.
+
+    >>> truth_value(Or(Atom('p'), Atom('q')), {(Atom('p'), True)})
+    True
     """
 
     if isinstance(formula, Atom):
@@ -39,9 +44,73 @@ def is_valid(formula):
     # ======== YOUR CODE HERE ========
 
 
-def is_satisfiable(formula):
-    """Checks whether formula is satisfiable.
+def is_satisfiable(formula: Formula) -> Union[Set[Tuple[Atom, bool]], bool]:
+    """
+    Checks whether formula is satisfiable.
     In other words, if the input formula is satisfiable, it returns an interpretation that assigns true to the formula.
-    Otherwise, it returns False."""
-    pass
-    # ======== YOUR CODE HERE ========
+    Otherwise, it returns False.
+    """
+
+    set_atoms = atoms(formula)
+    interpretation = get_partial_interpretation(formula)
+    if interpretation:
+        set_atoms = new_set_atoms(set_atoms, interpretation)
+    result = sat(formula, set_atoms, interpretation)
+    if result:
+        return result
+    return False
+
+
+def get_partial_interpretation(formula: Formula) -> Union[Set[Tuple[Atom, bool]], None]:
+    """
+    Returns a partial interpretation if possible. Otherwise, it returns None.
+    """
+
+    if isinstance(formula, Atom):
+        return {(formula, True)}
+    if isinstance(formula, Not):
+        if isinstance(formula.inner, Atom):
+            return {(formula.inner, False)}
+    if isinstance(formula, And):
+        left = get_partial_interpretation(formula.left)
+        right = get_partial_interpretation(formula.right)
+        if left:
+            if right:
+                return left.union(right)
+            return left
+        if right:
+            return right
+        return None
+
+
+def new_set_atoms(set_atoms: Set[Atom], interpretation: Set[Tuple[Atom, bool]]):
+    return set(filter(
+        lambda atom:
+            not (interpretation.issuperset({(atom, True)}) or interpretation.issuperset({(atom, False)})),
+            set_atoms
+    ))
+
+
+def sat(formula: Formula, set_atoms: Set[Atom], interpretation: Union[Set[Tuple[Atom, bool]], Set]) \
+        -> Union[Set[Tuple[Atom, bool]], bool]:
+
+    if is_empty(set_atoms):
+        if truth_value(formula, interpretation):
+            return interpretation
+        return False
+    # Gera cópias
+    set_atoms_copy = set_atoms.copy()
+    atom = set_atoms_copy.pop()
+    interpretation_copy = interpretation.copy()
+
+    interpretation1 = interpretation_copy.union({(atom, True)})
+    interpretation2 = interpretation_copy.union({(atom, False)})
+
+    result = sat(formula, set_atoms_copy, interpretation1)
+    if result:
+        return result
+    return sat(formula, set_atoms_copy, interpretation2)
+
+
+def is_empty(obj: Sized) -> bool:
+    return len(obj) == 0
