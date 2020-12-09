@@ -20,6 +20,10 @@ class Formula:
 class Connective(Formula):
     @abstractmethod
     def truth_value(self) -> Union[bool, None]:
+        """
+        Returns the true value of the operation.
+        If not, return None.
+        """
         raise NotImplemented
 
 
