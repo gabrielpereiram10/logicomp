@@ -4,8 +4,7 @@ A rua ficou molhada.
 É possível concluir que choveu ontem?
 """
 
-from formula import *
-from semantics import *
+from logicomp.propositional_logic.semantics import *
 
 rained = Atom('choveu ontem')
 wet = Atom('a rua ficou molhada')

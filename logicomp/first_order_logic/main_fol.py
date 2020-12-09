@@ -1,6 +1,6 @@
-from fol_formula import *
-from term import *
-from interpretation_fol import *
+from logicomp.first_order_logic.fol_formula import *
+from logicomp.first_order_logic.term import *
+from logicomp.first_order_logic.interpretation_fol import *
 
 term1 = Con('a')
 term2 = Var('y')

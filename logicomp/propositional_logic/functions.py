@@ -1,9 +1,7 @@
 """The goal in this module is to define functions that take a formula as input and
 do some computation on its syntactic structure. """
 
-from typing import Set
-
-from formula import *
+from logicomp.propositional_logic.formula import *
 
 
 def length(formula: Formula) -> int:

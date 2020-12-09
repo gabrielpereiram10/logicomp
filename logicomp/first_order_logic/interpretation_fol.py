@@ -12,9 +12,6 @@ interpretation1 = Interpretation(domain = {1, 2, 3},
                   )
 """
 
-from fol_formula import *
-from term import *
-
 
 class Interpretation:
     def __init__(self, domain, predicates, functions, constants, variables):

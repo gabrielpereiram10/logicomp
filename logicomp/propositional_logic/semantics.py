@@ -1,9 +1,6 @@
 """The goal in this module is to define functions associated with the semantics of formulas in propositional logic. """
 
-from typing import Set, Tuple, Union
-
-from formula import *
-from functions import atoms
+from logicomp.propositional_logic.formula import *
 
 
 def truth_value(formula: Formula, interpretation: Set[Tuple[str, bool]]) -> Union[bool, None]:

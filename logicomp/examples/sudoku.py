@@ -1,4 +1,4 @@
-from semantics import *
+from logicomp.propositional_logic.semantics import *
 import time
 
 '''
