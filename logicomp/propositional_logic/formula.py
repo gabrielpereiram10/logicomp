@@ -17,7 +17,7 @@ class Formula:
     ...
 
 
-class Connective:
+class Connective(Formula):
     @abstractmethod
     def truth_value(self) -> Union[bool, None]:
         raise NotImplemented
@@ -60,7 +60,7 @@ class Atom(Formula):
         return hash((self.name, 'atom'))
 
 
-class Implies(BinaryConnective, Formula):
+class Implies(BinaryConnective):
 
     def __init__(self, left, right):
         super().__init__(left, right)
@@ -82,7 +82,7 @@ class Implies(BinaryConnective, Formula):
         return hash((hash(self.left), hash(self.right), 'implies'))
 
 
-class Not(Connective, Formula):
+class Not(Connective):
 
     def __init__(self, inner):
         super().__init__()
@@ -103,7 +103,7 @@ class Not(Connective, Formula):
         return hash((hash(self.inner), 'not'))
 
 
-class And(BinaryConnective, Formula):
+class And(BinaryConnective):
 
     def __init__(self, left, right):
         super().__init__(left, right)
@@ -125,7 +125,7 @@ class And(BinaryConnective, Formula):
         return hash((hash(self.left), hash(self.right), 'and'))
 
 
-class Or(BinaryConnective, Formula):
+class Or(BinaryConnective):
 
     def __init__(self, left, right):
         super().__init__(left, right)
