@@ -42,13 +42,17 @@ class Atom(Formula):
         super().__init__()
         self.name = name
 
-    def get_value(self, interpretation_copy: Set[Tuple[str, bool]]) -> Union[bool, None]:
-        if self.__is_empty(interpretation_copy):
-            return None
-        valuation = interpretation_copy.pop()
-        if valuation[0] == self.name:
-            return valuation[1]
-        return self.get_value(interpretation_copy)
+    def get_value(self, interpretation: Set[Tuple[Atom, bool]]) -> Union[bool, None]:
+        """
+        Checks if Atom is in the interpretation and returns the associated value.
+        Otherwise, it returns None.
+        """
+
+        if interpretation.issuperset({(self, True)}):
+            return True
+        if interpretation.issuperset({(self, False)}):
+            return False
+        return None
 
     @staticmethod
     def __is_empty(iterable: Sized) -> bool:
