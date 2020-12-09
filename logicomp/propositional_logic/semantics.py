@@ -8,9 +8,6 @@ def truth_value(formula: Formula, interpretation: Set[Tuple[Atom, bool]]) -> Uni
     """
     Determines the true value of a formula for an interpretation (evaluation) complete or partial.
     An interpretation can be defined as a set of tuples. For example, {(Atom('p'), True)}.
-
-    >>> truth_value(Or(Atom('p'), Atom('q')), {(Atom('p'), True)})
-    True
     """
 
     if isinstance(formula, Atom):
